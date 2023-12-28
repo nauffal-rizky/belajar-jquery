@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar JQuery</title>
+
+    <style>
+      .box-container {
+        display: inline-flex;
+        flex-direction: column;
+        padding: 20px;
+        border: 1px solid pink;
+      }
+      .box {
+        display: inline-block;
+      }
+      .rounded {
+        clip-path: circle();
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./img/myface.JPG" alt="" />
+    <h1 id="intro">Let's learn how to use jQuery!</h1>
+
+    <div class="box-container">
+      <div class="box">First box</div>
+      <div class="box">Second box</div>
+      <div class="box">Third box</div>
+    </div>
+
+    <p>Box container's width is <span id="box-width"></span></p>
+    <p>Box container's height is <span id="box-height"></span></p>
+    <p>Your submitted value: <span class="submitted-value"></span></p>
+
+    <form action="#">
+      <input type="text" placeholder="Insert a value here..." required />
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+
+    <!-- JQuery -->
+    <script src="jquery-3.7.1.min.js"></script>
+    <script>
+      $(document).ready(() => {
+        /* Selection */
+        $('#intro').css('color', 'orange');
+        $('.box').css('font-family', 'Poppins, sans-serif');
+        $('.box:first').css('color', 'blue');
+        $('.box:eq(1)').css('color', 'red'); // eq() - start from 0 ~
+        $('.box:last').css('color', 'green');
+
+        /* Event */
+        $('#intro').click(() => {
+          $('#intro').css('background-color', 'black');
+        });
+        $('.box').mouseenter(function () {
+          $(this).css('background-color', 'black');
+        });
+        $('.box').mouseleave(function () {
+          $(this).css('background-color', 'transparent');
+        });
+
+        /* Get & Set Value */
+        $('form').submit(() => {
+          event.preventDefault();
+
+          let text = $('input').val();
+          /* .text()
+            $('.submitted-value').text(text); // .text() === .innerText
+          */
+          /* .html()
+           */
+          $('.submitted-value').html(`<b>${text}</b>`); // .html() === .innerHTML
+
+          $('input').val('');
+        });
+
+        /* Adding & removing elements */
+        // append() is adding new child element from the end
+        $('.box-container').append('<div class="box">Appended element</div>');
+
+        // prepend() is adding new child element from the beginning
+        $('.box-container').prepend('<div class="box">Prepended element</div>');
+
+        // before() is adding new element "before" the selected element
+        $('.box-container').before('<p>Befored element</p>');
+
+        // after() is adding new element "after "the selected element
+        $('.box-container').after('<p>Aftered element</p>');
+
+        /* empty() is removing elements inside the selected element 
+          $('.box-container').empty();
+        */
+        /* remove() is removing the selected element 
+          $('.box-container').remove();
+        */
+
+        /* CSS */
+        $('img').css({
+          display: 'block',
+          height: '500px',
+          margin: '0 auto',
+        });
+        $('img').click(() => {
+          // $('img').addClass('rounded'); // adding class just like element.classList.add('');
+          // $('img').removeClass('rounded'); // removing class just like element.classList.remove('');
+          $('img').toggleClass('rounded'); // toggle class just like element.classList.toggle('')
+        });
+
+        /* How to fetch element's dimensions:
+        1. width() => content 
+        2. innerWidth() => content + padding 
+        3. outerWidth() => content + padding + border 
+          4. outerWidth(true) => content + padding + border + margin 
+          
+          1. height() => content 
+          2. innerHeight() => content + padding 
+          3. outerHeight() => content + padding + border 
+          4. outerHeight(true) => content + padding + border + margin 
+        */
+        const boxWidth = $('.box-container').outerWidth(true);
+        $('#box-width').html(`<b>${boxWidth}</b>`);
+        const boxHeight = $('.box-container').outerHeight(true);
+        $('#box-height').html(`<b>${boxHeight}</b>`);
+
+        /* How to change element's dimensions: 
+          - .width(value)
+          - .height(value)
+        */
+        $('.box-container').width(200).height(200);
+      });
+    </script>
+  </body>
+</html>
